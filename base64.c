@@ -127,8 +127,8 @@ base64_encode(
 }
 
 /*
-** Take a base64 string, convert it into base10 data, malloc a new data array
-** and store it in the void **data given as param.
+** Malloc a new data array, convert the base64_string into base10 data, and
+** store it in the void **data given as param.
 ** Store the new size in the size pointer given as parameter
 ** Return the new void* data array.
 */
