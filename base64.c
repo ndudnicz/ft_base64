@@ -137,11 +137,12 @@ base64_decode(
 	size_t *size
 )
 {
-	size_t const	string_len = strlen(base64_string);
-	uint8_t const	completion = base64_string[string_len - 1] == '=' ? (base64_string[string_len - 2] == '=' ? 2 : 1): 0;
-	size_t const	string_base64_len = string_len - completion;
-	uint8_t *const	data_uint8 = (uint8_t*)calloc(1, sizeof(uint8_t) * *size);
-	size_t			i, n;
+	size_t const			string_len = strlen(base64_string);
+	uint8_t const			completion = base64_string[string_len - 1] == '=' ? (base64_string[string_len - 2] == '=' ? 2 : 1): 0;
+	size_t const			string_base64_len = string_len - completion;
+	uint8_t *const			data_uint8 = (uint8_t*)calloc(1, sizeof(uint8_t) * *size);
+	uint8_t const *const	base64_string_uint8 = (uint8_t*)base64_string;
+	size_t					i, n;
 
 	*size = DATA_LENGTH(string_base64_len);
 	if (!data_uint8) {
@@ -150,21 +151,21 @@ base64_decode(
 		for (i = 0, n = 0; n < string_len; i += 1) {
 			switch (i % 3) {
 				case 0 /* A */ :
-				data_uint8[i] |= B64_TO_DATA[ base64_string[n] ] << 2 ;
+				data_uint8[i] |= B64_TO_DATA[ base64_string_uint8[n] ] << 2 ;
 				n++;
-				data_uint8[i] |= (B64_TO_DATA[ base64_string[n] ] & A_LEFT_6BITS) >> 4;
+				data_uint8[i] |= (B64_TO_DATA[ base64_string_uint8[n] ] & A_LEFT_6BITS) >> 4;
 				break;
 
 				case 1 /* B */ :
-				data_uint8[i] |= (B64_TO_DATA[ base64_string[n] ] & A_RIGHT_6BITS) << 4;
+				data_uint8[i] |= (B64_TO_DATA[ base64_string_uint8[n] ] & A_RIGHT_6BITS) << 4;
 				n++;
-				data_uint8[i] |= (B64_TO_DATA[ base64_string[n] ] & B_6BITS) >> 2;
+				data_uint8[i] |= (B64_TO_DATA[ base64_string_uint8[n] ] & B_6BITS) >> 2;
 				break;
 
 				case 2 /* C */ :
-				data_uint8[i] |= (B64_TO_DATA[ base64_string[n] ] & C_LEFT_6BITS) << 6;
+				data_uint8[i] |= (B64_TO_DATA[ base64_string_uint8[n] ] & C_LEFT_6BITS) << 6;
 				n++;
-				data_uint8[i] |= B64_TO_DATA[ base64_string[n] ];
+				data_uint8[i] |= B64_TO_DATA[ base64_string_uint8[n] ];
 				n++;
 				break;
 			}
