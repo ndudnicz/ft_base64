@@ -149,26 +149,26 @@ base64_decode(
 		return NULL;
 	} else {
 		for (i = 0, n = 0; n < string_len; i += 1) {
-			if (base64_string_uint8[n] > 127) {return NULL;}
+			if (base64_string_uint8[n] > 127) {free(data_uint8); return NULL;}
 			switch (i % 3) {
 				case 0 /* A */ :
 				data_uint8[i] |= B64_TO_DATA[ base64_string_uint8[n] ] << 2 ;
 				n++;
-				if (base64_string_uint8[n] > 127) {return NULL;}
+				if (base64_string_uint8[n] > 127) {free(data_uint8); return NULL;}
 				data_uint8[i] |= (B64_TO_DATA[ base64_string_uint8[n] ] & A_LEFT_6BITS) >> 4;
 				break;
 
 				case 1 /* B */ :
 				data_uint8[i] |= (B64_TO_DATA[ base64_string_uint8[n] ] & A_RIGHT_6BITS) << 4;
 				n++;
-				if (base64_string_uint8[n] > 127) {return NULL;}
+				if (base64_string_uint8[n] > 127) {free(data_uint8); return NULL;}
 				data_uint8[i] |= (B64_TO_DATA[ base64_string_uint8[n] ] & B_6BITS) >> 2;
 				break;
 
 				case 2 /* C */ :
 				data_uint8[i] |= (B64_TO_DATA[ base64_string_uint8[n] ] & C_LEFT_6BITS) << 6;
 				n++;
-				if (base64_string_uint8[n] > 127) {return NULL;}
+				if (base64_string_uint8[n] > 127) {free(data_uint8); return NULL;}
 				data_uint8[i] |= B64_TO_DATA[ base64_string_uint8[n] ];
 				n++;
 				break;
