@@ -109,9 +109,6 @@ base64_encode(
 				n++;
 				base64_data[n] = DATA_TO_B64[ data_uint8[i] & C_RIGHT ];
 				break;
-
-				default:
-				break;
 			}
 		}
 		if (size % 3 == 1) {
