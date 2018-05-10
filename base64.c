@@ -140,11 +140,11 @@ base64_decode(
 	size_t const			string_len = strlen(base64_string);
 	uint8_t const			completion = base64_string[string_len - 1] == '=' ? (base64_string[string_len - 2] == '=' ? 2 : 1): 0;
 	size_t const			string_base64_len = string_len - completion;
+	*size = DATA_LENGTH(string_base64_len);
 	uint8_t *const			data_uint8 = (uint8_t*)calloc(1, sizeof(uint8_t) * *size);
 	uint8_t const *const	base64_string_uint8 = (uint8_t*)base64_string;
 	size_t					i, n;
 
-	*size = DATA_LENGTH(string_base64_len);
 	if (!data_uint8) {
 		return NULL;
 	} else {
