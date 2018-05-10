@@ -9,7 +9,7 @@
 ** Possible improvement: remove switch/case and for loop by +=3
 */
 
-char* base64_encode(void* data, size_t size)
+char* base64_encode(void *data, size_t size)
 ```
 
 #### Decode
